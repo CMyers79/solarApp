@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+</head>
+<body>
+<h1>Welcome to BeaverHacks Solar PV Calculator</h1>
+<h2>Please add your equipment which is supplied with battery power:</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label>Please enter </label>
+        <input type="text" name="latitude"
+               placeholder="xxx.xxxx" class="form-control"
+               value="{{ request.form['latitude'] }}">
+    </div>
+
+    <div class="form-group">
+        <label>Please enter </label>
+        <input type="text" name="longitude"
+               placeholder="xxx.xxxx" class="form-control"
+               value="{{ request.form['longitude'] }}">
+    </div>
+
+    <div class="form-group">
+        <label >Please enter </label>
+        <textarea name="startdate" placeholder="mm/dd"
+                  class="form-control">{{ request.form['startdate'] }}</textarea>
+    </div>
+
+   <div class="form-group">
+        <label >Please enter </label>
+        <textarea name="enddate" placeholder="mm/dd"
+                  class="form-control">{{ request.form['enddate'] }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+</body>
+</html>

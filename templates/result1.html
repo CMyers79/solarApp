@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>BeaverHacks Solar Photovoltaic Resource Utilization Calculator</title>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to BeaverHacks Solar PV Calculator</h1>
+    <h2>Here is the solar resource available at your location:</h2>
+
+    <form method="post">
+        <div class="form-group">
+            <label>Press to continue</label>
+            <input type="text" name="nextpage"
+                   class="form-control" value="{{ request.form['nextpage'] }}">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Continue</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
