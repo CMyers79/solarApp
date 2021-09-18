@@ -19,12 +19,6 @@ def get_GHI(latitude, longitude, s_Month, s_Day, s_Hour, s_Min, e_Month, e_Day, 
         for line in csv_reader:
             if line['Month'] == s_Month and line['Day'] == s_Day and line['Hour'] == str(int(s_Hour)-1) and line['Minute'] == s_Min:
                 for line in csv_reader: 
-                    print("-----------------------------------")
-                    print("Month: " + line['Month'])
-                    print("Day: " + line['Day']) 
-                    print("Hour: " + line['Hour'])
-                    print("Minute: " + line['Minute'])
-                    print(" GHI: " + line['GHI']) 
                     list_GHI.append(line['GHI'])
                     if line['Month'] == e_Month and line['Day'] == e_Day and line['Hour'] == e_Hour and line['Minute'] == e_Min:
                         break
