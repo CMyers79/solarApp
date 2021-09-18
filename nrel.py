@@ -17,7 +17,7 @@ e_Date[1] = e_Day
 e_Date[2] = e_Hour
 e_Date[3] = e_Min """
 def get_GHI(coord, s_Date, e_Date):
-    payload = "wkt=POINT("+str(coord[0])+"%20"+str(coord[1])+")&attributes=dhi%2Cdni%2Cghi%2Cdew_point%2Cair_temperature%2Csurface_pressure%2Cwind_direction%2Cwind_speed%2Csurface_albedo%2C%2C%2C&names=tmy-2020&full_name=Dongwoo%Kang&email=kangdo@oregonstate.edu&affiliation=OregonStateUniversity&mailing_list=false&reason=test&utc=true"
+    payload = "wkt=POINT("+str(coord[0])+"%20"+str(coord[1])+")&attributes=dhi%2Cdni%2Cghi%2Cdew_point%2Cair_temperature%2Csurface_pressure%2Cwind_direction%2Cwind_speed%2Csurface_albedo%2C%2C%2C&names=tmy-2020&full_name=Dongwoo%Kang&email=kangdo@oregonstate.edu&affiliation=OregonStateUniversity&mailing_list=false&reason=test&utc=false"
     response = requests.request("POST", url, data=payload, headers=headers)
     print(response)
     file1 = open("corvallis.csv","w")
