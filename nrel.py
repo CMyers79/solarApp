@@ -1,7 +1,7 @@
 import requests
 import csv
 
-url = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-tmy-download.csv?api_key=DEMO_KEY"
+url = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-tmy-download.csv?api_key=aCCaQK7ZmrwW3aDTi2vViUpgjBBcV1KN215VOCK4"
 list_GHI = []
 headers = {
     'content-type': "application/x-www-form-urlencoded",
