@@ -88,6 +88,6 @@ def generate_graph(times, charge):
     plt.xticks(xs, times)
     plt.xlabel("Time")
     plt.ylabel("Battery Charge")
-    plt.savefig("./static/charge_plot.png")
+    plt.savefig("./static/img/charge_plot.png")
 
     return

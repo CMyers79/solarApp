@@ -2,10 +2,10 @@
 
 from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory
 from nrel import get_GHI
-from calcs import track_battery_changes, generate_graph
-import requests
+from calcs import track_battery_changes
 
-app = Flask(__name__, static_folder='static')
+
+app = Flask(__name__)
 app.config['SECRET_KEY'] = '1ED964D2E87CF13129B56A5F4B86A'
 
 
@@ -67,7 +67,7 @@ def index2():
         start_hour = session['start_hour']
         GHI_list = session['GHI_list']
 
-        if not water or not fan or not lighting or not plug_load or not refrig or not batt_type or not batt_cap:
+        if not water or not fan or not lighting or not plug_load or not refrig or not batt_type or not batt_cap or not panel_size or not num_panels:
             flash('All inputs are required, enter 0 for no consumption')
         else:
             water = int(water) / 2
@@ -144,10 +144,6 @@ def result2():
 
     return render_template('result2.html')
 
-
-@app.route('/static')
-def send_file(filename):
-    return send_from_directory(app.static_folder, filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
