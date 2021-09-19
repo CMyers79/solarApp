@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <style>
+        button.btn{
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-family:sans-serif;
+        font-size: 19px;
+        color:#FFFFFF;
+        margin: 20px;
+        background-color:#4eb5f1;
+        text-align:center;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to BeaverHacks Solar PV Calculator</h1>
-<h2>Please add your equipment which is supplied with battery power:</h2>
+<h1 style="font-family:sans-serif; font-size:300%; text-align:center;">Welcome to BeaverHacks Solar PV Calculator</h1>
+<h2 style="font-family:sans-serif; font-size:150%; text-align:center;">Please add your equipment which is supplied with battery power:</h2>
 
-<form method="post">
-    <div class="form-group">
+<form style="margin :50px;" method="post">
+    <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
         <label>Please enter </label>
         <input type="text" name="latitude"
                placeholder="xxx.xxxx" class="form-control"
                value="{{ request.form['latitude'] }}">
     </div>
 
-    <div class="form-group">
+    <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
         <label>Please enter </label>
         <input type="text" name="longitude"
                placeholder="xxx.xxxx" class="form-control"
                value="{{ request.form['longitude'] }}">
     </div>
 
-    <div class="form-group">
+    <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
         <label >Please enter </label>
         <textarea name="startdate" placeholder="mm/dd/hh"
                   class="form-control">{{ request.form['startdate'] }}</textarea>
     </div>
 
-   <div class="form-group">
+   <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
         <label >Please enter </label>
         <textarea name="enddate" placeholder="mm/dd/hh"
                   class="form-control">{{ request.form['enddate'] }}</textarea>
     </div>
 
-    <div class="form-group">
+    <div style = "text-align: center;" class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 
