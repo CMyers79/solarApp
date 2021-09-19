@@ -51,11 +51,11 @@ def result1():
 @app.route('/index2', methods=['GET', 'POST'])
 def index2():
     if request.method == 'POST':
-        water = request.form['water']
-        fan = request.form['fan']
-        lighting = request.form['lighting']
-        plug_load = request.form['plug_load']
-        refrig = request.form['refrig']
+        water = request.form.get('water', False)
+        fan = request.form.get('fan', False)
+        lighting = request.form.get('lighting', False)
+        plug_load = request.form.get('plug_load', False)
+        refrig = request.form.get('refrig', False)
 
         if not water or not fan or not lighting or not plug_load or not refrig:
             flash('All inputs are required, enter 0 for no consumption')
