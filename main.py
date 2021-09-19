@@ -56,22 +56,28 @@ def index2():
         lighting = request.form.get('lighting', False)
         plug_load = request.form.get('plug_load', False)
         refrig = request.form.get('refrig', False)
+        batt_type = request.form.get('batt_type', False)
+        batt_cap = request.form.get('batt_cap', False)
 
-        if not water or not fan or not lighting or not plug_load or not refrig:
+        if not water or not fan or not lighting or not plug_load or not refrig or not batt_type or not batt_cap:
             flash('All inputs are required, enter 0 for no consumption')
         else:
             water = int(water) / 2
             fan = int(fan)
             lighting = int(lighting)
             plug_load = int(plug_load)
-            refrig = int(refrig)
+            batt_cap = int(batt_cap)
+
             session['water'] = water
             session['fan'] = fan
             session['lighting'] = lighting
             session['plug_load'] = plug_load
             session['refrig'] = refrig
+            session['batt_type'] = batt_type
+            session['batt_cap'] = batt_cap
 
-            return redirect(url_for('result2', water=water, fan=fan, lighting=lighting, plug_load=plug_load, refrig=refrig), code=307)
+            return redirect(url_for('result2', water=water, fan=fan, lighting=lighting, plug_load=plug_load,
+                                    refrig=refrig), batt_type=batt_type, batt_cap=batt_cap, code=307)
 
     return render_template('index2.html')
 

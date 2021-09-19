@@ -20,7 +20,7 @@
 <body>
 <div class="container">
     <h1 style="font-family:sans-serif; font-size:300%; text-align:center;">Welcome to BeaverHacks Solar PV Calculator</h1>
-    <h2 style="font-family:sans-serif; font-size:150%; text-align:center;">Please add your equipment which is supplied with battery power:</h2>
+    <h2 style="font-family:sans-serif; font-size:150%; text-align:center;">Please add your electric equipment and battery type/capacity:</h2>
 
     <form style="margin :50px;" method="post">
         <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
@@ -52,6 +52,18 @@
             <label >Please enter refrigeration type (DC, AC, LP)</label>
             <input type="text" name="refrig" placeholder="type"
                    class="form-control" value="{{ request.form['refrig'] }}">
+        </div>
+
+        <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
+            <label >Please enter battery type (LI, PB)</label>
+            <input type="text" name="batt_type" placeholder="type"
+                   class="form-control" value="{{ request.form['batt_type'] }}">
+        </div>
+
+        <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
+            <label >Please enter battery Wh capacity</label>
+            <input type="text" name="batt_cap" placeholder="Wh"
+                   class="form-control" value="{{ request.form['batt_cap'] }}">
         </div>
 
         <div style="text-align: center;" class="form-group">
