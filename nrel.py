@@ -22,6 +22,6 @@ def get_GHI(coord, s_Date, e_Date):
             if line['Month'] == str(s_Date[0]) and line['Day'] == str(s_Date[1]) and line['Hour'] == str(int(s_Date[2]) - 1):
                 for line in csv_reader: 
                     list_GHI.append(line['GHI'])
-                    if line['Month'] == str(e_Date[0]) and line['Day'] == str(e_Date[1]) and line['Hour'] == str(int(s_Date[2]) - 1):
+                    if line['Month'] == str(e_Date[0]) and line['Day'] == str(e_Date[1]) and line['Hour'] == str(int(e_Date[2]) - 1):
                         break
     return list_GHI
