@@ -1,6 +1,7 @@
 #
 
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+from nrel import get_GHI
 import requests
 
 app = Flask(__name__)
@@ -13,8 +14,6 @@ def index():
         longitude = request.form['longitude']
         startdate = request.form['startdate']
         enddate = request.form['enddate']
-        coords = [latitude, longitude]
-        period = [startdate, enddate]
 
         if not latitude or not longitude:
             flash('Latitude and Longitude are required')
@@ -22,11 +21,25 @@ def index():
             flash('Start and end dates are required')
         else:
 
-            return redirect(url_for('result1'))
+            startdate = [int(numString) for numString in startdate.split("/")]
+            enddate = [int(numString) for numString in enddate.split("/")]
+            coords = [float(latitude), float(longitude)]
+            session['startdate'] = startdate
+            session['enddate'] = enddate
+            session['coords'] = coords
+            return redirect(url_for('result1', startdate=startdate, enddate=enddate, coords=coords))
+
     return render_template('index.html')
 
 @app.route('/result1', methods=['GET', 'POST'])
-def result1(coords, period):
+def result1():
+    startdate = session['startdate']
+    enddate = session['enddate']
+    coords = session['coords']
+
+    GHI_list = get_GHI(coords, startdate, enddate)
+    print(GHI_list)
+
     if request.method == 'POST':
         nextpage = request.form['nextpage']
         if nextpage is not None:
