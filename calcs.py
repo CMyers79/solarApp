@@ -1,7 +1,7 @@
 import pylab as plt
 
 
-def track_battery_changes(charge, load_dict, ghi_list, start_time):
+def track_battery_changes(charge, load_dict, ghi_list, start_time, panel_size, num_panels):
     """
     Track hourly battery changes
 
@@ -9,7 +9,8 @@ def track_battery_changes(charge, load_dict, ghi_list, start_time):
     :param load_dict: dict with hourly power usage
     :param ghi_list: list of hourly ghi
     :param start_time: hour to start tracking changes
-
+    :param panel_size: size of each solar panel in m^2
+    :param num_panels: number of solar panels installed
     :return track_charge: list of remaining battery charge each hour
     :return battery_percentage: battery percentage at end time
     """
@@ -31,7 +32,7 @@ def track_battery_changes(charge, load_dict, ghi_list, start_time):
             dark_hours = 0
 
             # Calculate battery replenished
-            charge += ghi_list[hours_tracked] * .2
+            charge += ghi_list[hours_tracked] * panel_size * num_panels * .2
 
         else:  # nighttime
             charge -= load_dict["fan"]
@@ -87,6 +88,6 @@ def generate_graph(times, charge):
     plt.xticks(xs, times)
     plt.xlabel("Time")
     plt.ylabel("Battery Charge")
-    plt.show()
+    plt.savefig("./static/charge_plot.png")
 
     return
