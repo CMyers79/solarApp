@@ -14,6 +14,9 @@
         background-color:#4eb5f1;
         text-align:center;
         }
+        .imagecenter{
+        text-align: center;
+        }
     </style>
     <title>BeaverHacks Solar Photovoltaic Resource Utilization Calculator</title>
 </head>
@@ -22,8 +25,12 @@
     <h1 style="font-family:sans-serif; font-size:300%; text-align:center;">Welcome to BeaverHacks Solar PV Calculator</h1>
     <h2 style="font-family:sans-serif; font-size:150%; text-align:center;">Here is the result of your solar analysis:</h2>
 
-    <img src="{{ url_for('static', filename='img/charge_plot.png') }}", alt="Battery Charge Graph">
-
+    <div class="imagecenter">
+        <img style="text-align:center" src="{{ url_for('static', filename='img/charge_plot.png') }}", alt="Battery Charge Graph">
+    </div>
+    <p style="font-family:sans-serif; font-size:150%; text-align:center;">Please note, this represents effective capacity, which is 50% of rated capacity for Lead Acid, 80% of rated capacity for Lithium Ion.</p>
+    <p style="font-family:sans-serif; font-size:150%; text-align:center;">Battery charge remaining at end of period:</p>
+    <p style="font-family:sans-serif; font-size:150%; text-align:center;">{{ percent_remaining }}</p>
 </div>
 </body>
 </html>

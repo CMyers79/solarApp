@@ -1,6 +1,10 @@
-#
+# This program sets up Flask view functions for 4 html templates, with variables passed between pages with the
+# session cookie.  The program calls nrel.py, which calls the NREL NSRDB API and returns the solar irradiation data
+# for the GPS coordinates and time period that are passed in as parameters.  The program then calls calcs.py with
+# the solar data, a set of load, solar panel, and battery data input by the user on one of the web pages, and generates
+# a graph of the battery charge level over the time period specified.
 
-from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from nrel import get_GHI
 from calcs import track_battery_changes
 
@@ -135,14 +139,12 @@ def result2():
     charge_list = batt_result[0]
     percent_remaining = batt_result[1]
 
-    print(charge_list)
-    print(percent_remaining)
 
     if request.method == 'POST':
         if "continue" in request.form:
             return redirect(url_for('/'))
 
-    return render_template('result2.html')
+    return render_template('result2.html', percent_remaining=percent_remaining)
 
 
 if __name__ == '__main__':
