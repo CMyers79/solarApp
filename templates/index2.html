@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>BeaverHacks Solar Photovoltaic Resource Utilization Calculator</title>
 </head>
 <body>
 <h1>Welcome to BeaverHacks Solar PV Calculator</h1>
@@ -7,35 +12,47 @@
 
 <form method="post">
     <div class="form-group">
-        <label>Please enter </label>
-        <input type="text" name="latitude"
-               placeholder="xxx.xxxx" class="form-control"
-               value="{{ request.form['latitude'] }}">
+        <label>Please enter daily water consumption:</label>
+        <input type="text" name="water"
+               placeholder="gallons/day" class="form-control"
+               value="{{ request.form['water'] }}">
     </div>
 
     <div class="form-group">
-        <label>Please enter </label>
-        <input type="text" name="longitude"
-               placeholder="xxx.xxxx" class="form-control"
-               value="{{ request.form['longitude'] }}">
+        <label>Please enter furnace fan/control power</label>
+        <input type="text" name="fan"
+               placeholder="Watts" class="form-control"
+               value="{{ request.form['fan'] }}">
     </div>
 
     <div class="form-group">
-        <label >Please enter </label>
-        <textarea name="startdate" placeholder="mm/dd/hh"
-                  class="form-control">{{ request.form['startdate'] }}</textarea>
+        <label >Please enter lighting power</label>
+        <input type="text" name="lighting" placeholder="Watts"
+                  class="form-control" value="{{ request.form['lighting'] }}">
     </div>
 
    <div class="form-group">
-        <label >Please enter </label>
-        <textarea name="enddate" placeholder="mm/dd/hh"
-                  class="form-control">{{ request.form['enddate'] }}</textarea>
+        <label >Please enter average daytime plug load</label>
+        <input type="text" name="plug_load" placeholder="Watts"
+                  class="form-control" value="{{ request.form['plug_load'] }}">
+    </div>
+
+    <div class="form-group">
+        <label >Please enter refrigeration type (DC, AC, LP)</label>
+        <input type="text" name="refrig" placeholder="type"
+                  class="form-control" value="{{ request.form['refrig'] }}">
     </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 
+<div class="container">
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+    {% block content %} {% endblock %}
+</div>
 </form>
 </body>
 </html>

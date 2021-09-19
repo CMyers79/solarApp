@@ -11,16 +11,17 @@
     <h1>Welcome to BeaverHacks Solar PV Calculator</h1>
     <h2>Here is the solar resource available at your location:</h2>
 
-    <form method="post">
-        <div class="form-group">
-            <label>Press to continue</label>
-            <input type="text" name="nextpage"
-                   class="form-control" value="{{ request.form['nextpage'] }}">
-        </div>
+    <p>Hour   W/m^2</p>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Continue</button>
-        </div>
+    <ol style="list-style-type:decimal">
+        {% for item in list1 %}
+            <li>{{item}}</li>
+        {% endfor %}
+    </ol>
+
+    <form method="post">
+        <input type="submit" name="continue" value="Continue">
+
     </form>
 </div>
 </body>
