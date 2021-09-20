@@ -31,9 +31,9 @@
         </div>
 
         <div style="font-family:sans-serif; font-size:120%; text-align:center;" class="form-group">
-            <label>Please enter your GPS Longitude</label>
+            <label>Please enter your GPS Longitude (West is negative)</label>
             <input type="number" step="any" name="longitude"
-                   placeholder="xxx.xxxx" class="form-control"
+                   placeholder="-xxx.xxxx" class="form-control"
                    value="{{ request.form['longitude'] }}">
         </div>
 

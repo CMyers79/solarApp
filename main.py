@@ -1,11 +1,17 @@
-#
+# This program sets up Flask view functions for 4 html templates, with variables passed between pages with the
+# session cookie.  The program calls nrel.py, which calls the NREL NSRDB API and returns the solar irradiation data
+# for the GPS coordinates and time period that are passed in as parameters.  The program then calls calcs.py with
+# the solar data, a set of load, solar panel, and battery data input by the user on one of the web pages, and generates
+# a graph of the battery charge level over the time period specified.
 
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from nrel import get_GHI
-import requests
+from calcs import track_battery_changes
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '1ED964D2E87CF13129B56A5F4B86A'
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -20,16 +26,17 @@ def index():
         elif not startdate or not enddate:
             flash('Start and end dates are required')
         else:
-
             startdate = [int(numString) for numString in startdate.split("/")]
             enddate = [int(numString) for numString in enddate.split("/")]
             coords = [float(latitude), float(longitude)]
             session['startdate'] = startdate
             session['enddate'] = enddate
             session['coords'] = coords
-            return redirect(url_for('result1', startdate=startdate, enddate=enddate, coords=coords))
+
+            return redirect(url_for('result1', startdate=startdate, enddate=enddate, coords=coords), code=307)
 
     return render_template('index.html')
+
 
 @app.route('/result1', methods=['GET', 'POST'])
 def result1():
@@ -38,17 +45,107 @@ def result1():
     coords = session['coords']
 
     GHI_list = get_GHI(coords, startdate, enddate)
-    print(GHI_list)
+    start_hour = startdate[2]
+    session['start_hour'] = start_hour
+    session['GHI_list'] = GHI_list
 
     if request.method == 'POST':
-        nextpage = request.form['nextpage']
-        if nextpage is not None:
-            return redirect(url_for('index2'))
-        return render_template('result1.html')
+        if "continue" in request.form:
+            return redirect(url_for('index2', start_hour=start_hour, GHI_list=GHI_list))
+        return render_template('result1.html', list1=GHI_list)
+
+
+@app.route('/index2', methods=['GET', 'POST'])
+def index2():
+    if request.method == 'POST':
+        water = request.form.get('water', False)
+        fan = request.form.get('fan', False)
+        lighting = request.form.get('lighting', False)
+        plug_load = request.form.get('plug_load', False)
+        refrig = request.form.get('refrig', False)
+        batt_type = request.form.get('batt_type', False)
+        batt_cap = request.form.get('batt_cap', False)
+        panel_size = request.form.get('panel_size', False)
+        num_panels = request.form.get('num_panels', False)
+
+        start_hour = session['start_hour']
+        GHI_list = session['GHI_list']
+
+        if not water or not fan or not lighting or not plug_load or not refrig or not batt_type or not batt_cap or not panel_size or not num_panels:
+            flash('All inputs are required, enter 0 for no consumption')
+        else:
+            water = int(water) / 2
+            fan = int(fan)
+            lighting = int(lighting)
+            plug_load = int(plug_load)
+            batt_cap = int(batt_cap)
+            panel_size = int(panel_size)
+            num_panels = int(num_panels)
+
+            session['water'] = water
+            session['fan'] = fan
+            session['lighting'] = lighting
+            session['plug_load'] = plug_load
+            session['refrig'] = refrig
+            session['batt_type'] = batt_type
+            session['batt_cap'] = batt_cap
+            session['start_hour'] = start_hour
+            session['GHI_list'] = GHI_list
+            session['panel_size'] = panel_size
+            session['num_panels'] = num_panels
+
+            return redirect(url_for('result2', water=water, fan=fan, lighting=lighting, plug_load=plug_load,
+                                    refrig=refrig, batt_type=batt_type, batt_cap=batt_cap, start_hour=start_hour,
+                                    GHI_list=GHI_list), code=307)
+
+    return render_template('index2.html')
+
 
 @app.route('/result2', methods=['GET', 'POST'])
 def result2():
-    return render_template('result2.html')
+    water = session['water']
+    fan = session['fan']
+    lighting=session['lighting']
+    plug_load = session['plug_load']
+    refrig = session['refrig']
+    batt_type = session['batt_type']
+    batt_cap = session['batt_cap']
+    start_hour = session['start_hour']
+    GHI_list = session['GHI_list']
+    panel_size = session['panel_size']
+    num_panels = session['num_panels']
+    GHI_list = [int(numString) for numString in GHI_list]
+
+    if batt_type == "LI":
+        batt_charge = batt_cap * 0.8
+    elif batt_type == "PB":
+        batt_charge = batt_cap * 0.5
+    else:
+        batt_charge = 0
+
+    if refrig == "LP":
+        refrig = 15
+    elif refrig == "DC":
+        refrig = 220
+    elif refrig == "AC":
+        refrig = 275
+    else:
+        refrig = 0
+
+    load_dict = {'water': water, 'fan': fan, 'lighting': lighting, 'plug load': plug_load, 'refrigerator': refrig}
+
+    batt_result = track_battery_changes(batt_charge, load_dict, GHI_list, start_hour, panel_size, num_panels)
+
+    charge_list = batt_result[0]
+    percent_remaining = batt_result[1]
+
+
+    if request.method == 'POST':
+        if "continue" in request.form:
+            return redirect(url_for('/'))
+
+    return render_template('result2.html', percent_remaining=percent_remaining)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
